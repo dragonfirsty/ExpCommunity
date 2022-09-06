@@ -8,4 +8,6 @@ class UserView(generics.CreateAPIView,generics.ListAPIView):
     queryset = User.objects.all()
 
 
-  
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
+     serializer_class = UserSerializer
+     queryset = User.objects.all()  
