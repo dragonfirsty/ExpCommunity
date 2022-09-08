@@ -9,3 +9,4 @@ class CommentPermissions(permissions.BasePermission):
             and (request.method in permissions.SAFE_METHODS
             or request.user.group.id == obj.post.group.id)
         )
+

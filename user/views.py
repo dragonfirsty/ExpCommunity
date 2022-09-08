@@ -4,19 +4,26 @@ from .models import User
 from rest_framework.views import APIView, Response, status
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
-from .permissions import IsAdminOrReadOnly
+from rest_framework.authentication import TokenAuthentication
+from .permissions import IsAdminOrReadOnly,IsOwnerOrAdmin
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 class UserView(generics.CreateAPIView,generics.ListAPIView):
+    authentication_classes = [TokenAuthentication]
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [IsAdminOrReadOnly]
 
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
+      
+     authentication_classes = [TokenAuthentication] 
      serializer_class = UserSerializer
      queryset = User.objects.all()  
-     permission_classes = [IsAdminOrReadOnly]
+     permission_classes = [IsOwnerOrAdmin]
+
+
 
 class UserLogin(APIView):
     def post(self, request):
