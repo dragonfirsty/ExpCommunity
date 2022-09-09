@@ -13,3 +13,5 @@ class User(AbstractUser):
     update_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     post_permission = models.BooleanField()
+
+    REQUIRED_FIELDS = ["first_name","last_name","birthdate","post_permission"]
