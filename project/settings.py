@@ -56,6 +56,7 @@ MY_APPS = [
     "answers",
     "user",
     "comments",
+    "groups",
     'drf_spectacular',
 ]
 
