@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/adriano/Área de Trabalho/CAPSTONE/ExpCommunity/venv"
+VIRTUAL_ENV="/home/dragonfirsty/KenzieAcademy/out-21/modulo-5/sprint-7/caps/ExpCommunity/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
