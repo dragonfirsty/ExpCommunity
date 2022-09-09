@@ -6,9 +6,6 @@ from .models import User
 class IsAdminOrReadOnly(permissions.BasePermission):
     def has_permission(self, request:Request, view:View) -> bool:
         
-        if request.method == "POST":
-            return True
-        
         return request.user.is_superuser
 
 
