@@ -1,6 +1,4 @@
-#!/bin/sh
-'''exec' "/home/adriano/Área de Trabalho/CAPSTONE/ExpCommunity/venv/bin/python" "$0" "$@"
-' '''
+#!/home/dragonfirsty/KenzieAcademy/out-21/modulo-5/sprint-7/caps/ExpCommunity/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
