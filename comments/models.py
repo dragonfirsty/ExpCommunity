@@ -10,7 +10,9 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     user = models.ForeignKey(
-        "user.User", on_delete=models.CASCADE, related_name="user_post"
+
+        "user.User", on_delete=models.CASCADE, related_name="comment_user"
+
     )
     post = models.ForeignKey(
         "posts.Post", on_delete=models.CASCADE, related_name="comment_post"

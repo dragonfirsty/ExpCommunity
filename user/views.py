@@ -8,7 +8,6 @@ from rest_framework.authentication import TokenAuthentication
 from .permissions import IsAdminOrReadOnly,IsOwnerOrAdmin
 from rest_framework.permissions import IsAuthenticated
 
-# Create your views here.
 class UserView(generics.CreateAPIView,generics.ListAPIView):
     authentication_classes = [TokenAuthentication]
     serializer_class = UserSerializer
