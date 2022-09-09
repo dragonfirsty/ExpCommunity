@@ -3,6 +3,7 @@
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
+
 import uuid
 
 
@@ -10,10 +11,12 @@ class Migration(migrations.Migration):
 
     initial = True
 
+
     dependencies = [
         ("comments", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
+
 
     operations = [
         migrations.CreateModel(
@@ -31,6 +34,7 @@ class Migration(migrations.Migration):
                 ("description", models.TextField()),
                 ("created_at", models.DateTimeField()),
                 ("updated_at", models.DateTimeField(auto_now=True)),
+
                 (
                     "comment_id",
                     models.ForeignKey(

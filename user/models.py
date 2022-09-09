@@ -9,7 +9,9 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     birthdate = models.DateField()
-    # password = models.CharField()
-    update_at = models.DateTimeField(null=True, blank=True)
-    created_at = models.DateTimeField(null=True, blank=True)
-    post_permission = models.BooleanField(default=False)
+    password = models.CharField(max_length=20)
+    update_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    post_permission = models.BooleanField()
+
+    REQUIRED_FIELDS = ["first_name","last_name","birthdate","post_permission"]

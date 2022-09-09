@@ -8,6 +8,7 @@ from .utils.mixins import SerializerByMethodMixin
 
 
 class CommentView(SerializerByMethodMixin, ListCreateAPIView):
+
     authentication_classes = [TokenAuthentication]
     permission_classes = [CommentPermissions]
 
@@ -25,3 +26,4 @@ class CommentView(SerializerByMethodMixin, ListCreateAPIView):
 class CommentDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
