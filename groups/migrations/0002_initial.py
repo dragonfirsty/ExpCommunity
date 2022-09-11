@@ -9,17 +9,17 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        ("groups", "0001_initial"),
         ("posts", "0001_initial"),
-        ("comments", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name="comment",
-            name="post",
+            model_name="group",
+            name="post_id",
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE,
-                related_name="comment_post",
+                related_name="group_post",
                 to="posts.post",
             ),
         ),
