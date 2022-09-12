@@ -34,7 +34,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['exp-community.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['exp-community.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
