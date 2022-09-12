@@ -6,7 +6,7 @@ from .models import Post
 
 
 class PostSerializer(serializers.ModelSerializer):
-    user_id = UserSerializer(read_only=True)["id"]
+    user_id = UserSerializer(read_only=True)["uuid"]
 
     class Meta:
         model = Post
