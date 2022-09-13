@@ -12,7 +12,7 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = "__all__"
         extra_kwargs = {
             "created_at": {"read_only": True},
-            "id": {"read_only": True},
+            "uuid": {"read_only": True},
             "updated_at": {"read_only": True},
         }
 

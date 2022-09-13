@@ -1,12 +1,14 @@
-from rest_framework import generics
-from .serializers import UserSerializer,LoginSerializer
-from .models import User
-from rest_framework.views import APIView, Response, status
 from django.contrib.auth import authenticate
-from rest_framework.authtoken.models import Token
+from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
-from .permissions import IsAdminOrReadOnly,IsOwnerOrAdmin
+from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView, Response, status
+
+from .models import User
+from .permissions import IsAdminOrReadOnly, IsOwnerOrAdmin
+from .serializers import LoginSerializer, UserSerializer
+
 
 class UserView(generics.CreateAPIView,generics.ListAPIView):
     authentication_classes = [TokenAuthentication]

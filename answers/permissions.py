@@ -1,10 +1,9 @@
 from rest_framework import permissions
 from rest_framework.views import Request, View
-from .models import Post
+from .models import Answer
 from groups.models import Group
 
-
-class AbleToPost(permissions.BasePermission):
+class AbleToAnswer(permissions.BasePermission):
     def has_permission(self, request: Request, view: View) -> bool:
 
         if request.method == "GET":
@@ -13,14 +12,14 @@ class AbleToPost(permissions.BasePermission):
         geral_group = Group.objects.get(name='geral')
 
         if geral_group.user_id == request.user.id:
-            return request.user.is_superuser
+            return False
 
         group = Group.objects.get(id=view.kwargs['group_id'])
 
-        return request.user.id == group.user_id and request.user.post_permission
+        return request.user.id == group.user_id
 
 class IsOwner(permissions.BasePermission):
 
-    def has_object_permission(self, request: Request, view: View, post: Post):
+    def has_object_permission(self, request: Request, view: View, answer: Answer):
 
-        return post.user_id == request.user.id
+        return answer.user_id == request.user.id

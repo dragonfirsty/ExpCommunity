@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Comment(models.Model):
-    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+    uuid = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     description = models.CharField(max_length=130)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

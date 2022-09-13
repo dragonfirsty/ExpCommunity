@@ -24,6 +24,8 @@ import os
 
 import dotenv
 
+import dj_database_url
+
 dotenv.load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -32,7 +34,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['exp-community.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -113,7 +115,10 @@ DATABASES = {
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
-
+if DATABASE_URL:
+    db_from_env = dj_database_url.config(
+        default=DATABASE_URL, conn_max_age=500, ssl_require=True)
+    DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -164,7 +169,6 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'ExpCommunity API',
-    # 'DESCRIPTION': 'ExpCommunity description',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }

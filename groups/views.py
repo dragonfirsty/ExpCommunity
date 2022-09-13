@@ -3,25 +3,20 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.permissions import IsAdminUser
 
 from .models import Group
-from .serializers import GroupCreateSerializer, GroupSerializer
-from .utils.mixins import SerializerByMethodMixin
+from .serializers import GroupSerializer
 
 
-class GroupView(SerializerByMethodMixin, ListCreateAPIView):
+class GroupView(ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminUser]
 
     queryset = Group.objects.all()
-    serializer_map = {
-        "GET": GroupSerializer,
-        "POST": GroupCreateSerializer,
-    }
-
-    def perform_create(self, serializer):
-
-        serializer.save(user=self.request.user)
+    serializer_class = GroupSerializer
 
 
 class GroupDetailView(RetrieveUpdateDestroyAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
+
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
