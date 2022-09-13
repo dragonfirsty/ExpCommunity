@@ -1,7 +1,26 @@
 from rest_framework import serializers
 from .models import Answer
 
+from user.serializers import UserSerializer
+from comments.serializers import CommentSerializer
+
 class AnswerSerializer(serializers.ModelSerializer):
-    model = Answer
-    fields = '__all__'
-    read_only_fields = ['user_id', 'comment_id']
+    user = UserSerializer(read_only=True)
+    comment = CommentSerializer(read_only=True)
+    class Meta:
+        model = Answer
+        fields = "__all__"
+        extra_kwargs = {
+            "created_at": {"read_only": True},
+            "uuid": {"read_only": True},
+            "updated_at": {"read_only": True},
+        }
+
+
+class AnswerCreateSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    comment = CommentSerializer(read_only=True)
+
+    class Meta:
+        model = Answer
+        fields = ["description", "user", "comment"]
