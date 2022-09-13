@@ -6,5 +6,5 @@ class Answer(models.Model):
     description = models.TextField(null=False, blank=False)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField(auto_now=True)
-    user_id = models.ForeignKey("user.User", on_delete=models.CASCADE, related_name="answers")
-    comment_id = models.ForeignKey("comments.Comment", on_delete=models.CASCADE, related_name="answers")
+    user= models.ForeignKey("user.User", on_delete=models.CASCADE, related_name="answers")
+    comment = models.ForeignKey("comments.Comment", on_delete=models.CASCADE, related_name="answers")
