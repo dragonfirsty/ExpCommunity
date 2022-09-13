@@ -1,7 +1,6 @@
-from sys import settrace
-from urllib import response
+
 from rest_framework.test import APITestCase,APIClient
-from rest_framework.views import status,Response
+from rest_framework.views import status
 from rest_framework.authtoken.models import Token
 from user.models import User
 from groups.models import Group
@@ -10,10 +9,8 @@ from groups.models import Group
 class UserViewsTests(APITestCase):
     
     @classmethod
-
     def setUpTestData(cls) -> None:
-        cls.client: APIClient
-
+       
         cls.base_url = '/api/users/'
 
         cls.base_url_login = '/api/users/login/'
@@ -45,9 +42,6 @@ class UserViewsTests(APITestCase):
 	        
             }
 
-
-
-
         groups_data = cls.users_data_admin.pop("groups")
         users_admin = User.objects.create_superuser(**cls.users_data_admin)
 
@@ -57,16 +51,11 @@ class UserViewsTests(APITestCase):
         
         
         cls.users_admin_token = Token.objects.create(user = users_admin)
-
-
-
-       
-    def test_created_users(self):
       
+    def test_created_users(self):
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.users_admin_token}")
         # import ipdb
         # ipdb.set_trace()
-        
         response = self.client.post(self.base_url, data=self.users_data)
         print(response.data)
         self.assertEqual(status.HTTP_201_CREATED,response.status_code)

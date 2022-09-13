@@ -12,12 +12,12 @@ class AbleToPost(permissions.BasePermission):
 
         geral_group = Group.objects.get(name='geral')
 
-        if geral_group.user_id == request.user.id:
+        if geral_group.user_id == request.user.uuid:
             return request.user.is_superuser
 
-        group = Group.objects.get(id=view.kwargs['group_id'])
+        group = Group.objects.get(uuid=view.kwargs['group_id'])
 
-        return request.user.id == group.user_id and request.user.post_permission
+        return request.user.uuid == group.user_id and request.user.post_permission
 
 class IsOwner(permissions.BasePermission):
 
