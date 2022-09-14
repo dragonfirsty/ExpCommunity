@@ -5,13 +5,13 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Post
-from .permissions import AbleToPost, IsOwner
+from .permissions import AbleToPost, IsOwnerOrAdmin
 from .serializers import PostSerializer
 
 
 class PostView(generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated,AbleToPost]
 
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -26,7 +26,7 @@ class PostView(generics.ListCreateAPIView):
 
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated,IsOwnerOrAdmin]
 
     queryset = Post.objects.all()
     serializer_class = PostSerializer

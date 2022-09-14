@@ -2,25 +2,27 @@ from rest_framework import permissions
 from rest_framework.views import Request, View
 from .models import Post
 from groups.models import Group
+from user.models import User
 
 
 class AbleToPost(permissions.BasePermission):
     def has_permission(self, request: Request, view: View) -> bool:
+        user = request.user
+        group_id = view.kwargs.get('group_id')
+        if user.is_superuser and request.method == "GET":
+            return True
+        if user.is_superuser and request.user.post_permission:
+            return True
+        group_atual =user.groups.get(uuid=group_id)
 
-        if request.method == "GET":
+        if group_atual and request.method == "GET":
             return True
 
-        geral_group = Group.objects.get(name='geral')
-
-        if geral_group.user_id == request.user.uuid:
-            return request.user.is_superuser
-
-        group = Group.objects.get(uuid=view.kwargs['group_id'])
-
-        return request.user.uuid == group.user_id and request.user.post_permission
-
-class IsOwner(permissions.BasePermission):
+        if group_atual.name != 'geral' and user.post_permission:
+            return True
+        return False
+class IsOwnerOrAdmin(permissions.BasePermission):
 
     def has_object_permission(self, request: Request, view: View, post: Post):
 
-        return post.user_id == request.user.id
+        return post.user_id == request.user.uuid or request.user.is_superuser
