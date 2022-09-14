@@ -37,9 +37,8 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
     def update(self, instance, validated_data):
-        # import ipdb
-        # ipdb.set_trace()
-        if validated_data["groups"] != None:
+       
+        if validated_data.get("groups"):
             groups_data = validated_data.pop("groups")
         notupdate = ["update_at", "created_at"]
         errors = []

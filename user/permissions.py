@@ -3,7 +3,7 @@ from rest_framework.views import Request,View
 from .models import User
 
 
-class IsAdminOrReadOnly(permissions.BasePermission):
+class IsAdmin(permissions.BasePermission):
     def has_permission(self, request:Request, view:View) -> bool:
         
         return request.user.is_superuser
