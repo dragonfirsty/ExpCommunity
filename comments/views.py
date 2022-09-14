@@ -1,5 +1,8 @@
+from django.shortcuts import get_object_or_404
+from posts.models import Post
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from .models import Comment
 from .permissions import CommentPermissions
@@ -10,8 +13,8 @@ from .utils.mixins import SerializerByMethodMixin
 class CommentView(SerializerByMethodMixin, ListCreateAPIView):
 
     authentication_classes = [TokenAuthentication]
-    permission_classes = [CommentPermissions]
-
+    permission_classes = [IsAuthenticated]
+    lookup_field = "post_id"
     queryset = Comment.objects.all()
     serializer_map = {
         "GET": CommentSerializer,
@@ -20,10 +23,11 @@ class CommentView(SerializerByMethodMixin, ListCreateAPIView):
 
     def perform_create(self, serializer):
 
-        serializer.save(user=self.request.user, post=self.request.post)
+        post_id = get_object_or_404(Post, pk=self.kwargs.get("post_id"))
+
+        serializer.save(user=self.request.user, post=post_id)
 
 
 class CommentDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-

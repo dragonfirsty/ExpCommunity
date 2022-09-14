@@ -115,9 +115,11 @@ else:
         "PASSWORD": os.getenv("DB_PASSWORD"),
         "HOST": "127.0.0.1",
         "PORT": os.getenv("DB_PORT"),
-        
-        },
-    }
+
+import sys
+if 'test' in sys.argv or 'test\_coverage' in sys.argv: #Covers regular testing and django-coverage
+ DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+ DATABASES['default']['NAME'] = ':memory:'
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
