@@ -9,8 +9,8 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("posts", "0001_initial"),
         ("comments", "0001_initial"),
+        ("posts", "0001_initial"),
     ]
 
     operations = [

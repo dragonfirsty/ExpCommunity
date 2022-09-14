@@ -6,19 +6,23 @@ from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    groups = GroupCreateSerializer(many=True)
+    groups = GroupCreateSerializer(many=True, required=False)
     class Meta:
         model = User
         fields = ['uuid','username','email',"first_name","last_name",'birthdate','post_permission',"password","groups"]
         extra_kwargs = {'password': {'write_only': True},"uuid": {"read_only": True},}
 
     def create(self, validated_data) -> User:
-        groups_data = validated_data.pop("groups")
+        groups_data = None
+        if validated_data.get("groups"):
+            groups_data = validated_data.pop("groups")
         
         user = User.objects.create_user(**validated_data)
-        for value in groups_data:
-            group, _ = Group.objects.get_or_create(**value)
-            user.groups.add(group)
+
+        if groups_data:
+            for value in groups_data:
+                group, _ = Group.objects.get_or_create(**value)
+                user.groups.add(group)
         
         return user    
 

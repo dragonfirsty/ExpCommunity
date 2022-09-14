@@ -12,8 +12,11 @@ class User(AbstractUser):
     birthdate = models.DateField()
     update_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    
     post_permission = models.BooleanField(default=False, blank=True)
     groups = models.ManyToManyField("groups.Group", related_name="user_groups")
+    
     REQUIRED_FIELDS = [
         "email",
         "first_name",
@@ -21,3 +24,4 @@ class User(AbstractUser):
         "birthdate",
         "post_permission",
     ]
+
