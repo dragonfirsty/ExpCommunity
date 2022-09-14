@@ -1,4 +1,5 @@
 
+import json
 from rest_framework.test import APITestCase
 from rest_framework.views import status
 from rest_framework.authtoken.models import Token
@@ -59,11 +60,13 @@ class UserViewsTests(APITestCase):
         cls.users_admin_token = Token.objects.create(user = users_admin)
 
         cls.base_url_detail = reverse("users-detail", kwargs={"pk":users_admin.uuid})
+
+       
         
 
     def test_created_users(self):
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.users_admin_token}")
-        response = self.client.post(self.base_url, data=self.users_data)
+        response = self.client.post(self.base_url, data=self.users_data,format="json")
         self.assertEqual(status.HTTP_201_CREATED,response.status_code)
 
     def test_unauthenticated_created_users(self):
