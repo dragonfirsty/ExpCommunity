@@ -6,7 +6,7 @@ from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    groups = GroupCreateSerializer(many=True)
+    groups = GroupCreateSerializer(many=True, required=False)
 
     class Meta:
         model = User
@@ -27,31 +27,31 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data) -> User:
-        groups_data = validated_data.pop("groups")
+        groups_data = None
+        if validated_data.get("groups"):
+            groups_data = validated_data.pop("groups")
 
         user = User.objects.create_user(**validated_data)
-        for value in groups_data:
-            group, _ = Group.objects.get_or_create(**value)
-            user.groups.add(group)
+
+        if groups_data:
+            for value in groups_data:
+                group, _ = Group.objects.get_or_create(**value)
+                user.groups.add(group)
 
         return user
 
     def update(self, instance, validated_data):
-       
+        groups_data = None
         if validated_data.get("groups"):
             groups_data = validated_data.pop("groups")
-        notupdate = ["update_at", "created_at"]
-        errors = []
+
         for key, value in validated_data.items():
-            if key in notupdate:
-                errors.append({f"{key}": f"You can not update {key} property."})
+            if key == "password":
+                instance.set_password(value)
             else:
                 setattr(instance, key, value)
 
-        if len(errors) > 0:
-            raise KeyError(errors, 422)
-
-        if validated_data["groups"] != None:
+        if groups_data:
             for value in groups_data:
                 group, _ = Group.objects.get_or_create(**value)
                 instance.groups.add(group)
