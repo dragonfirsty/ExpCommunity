@@ -3,12 +3,12 @@ from rest_framework import serializers
 from .models import Comment
 
 from user.serializers import UserSerializer
-from posts.serializers import PostSerializer
+from posts.serializers import PostImportSerializer
 
 
 class CommentSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    post = PostSerializer(read_only=True)
+    post = PostImportSerializer(read_only=True)
     class Meta:
         model = Comment
         fields = "__all__"
@@ -21,8 +21,20 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class CommentCreateSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    post = PostSerializer(read_only=True)
+    post = PostImportSerializer(read_only=True)
 
     class Meta:
         model = Comment
-        fields = ["description", "user", "post"]
+        fields = ["uuid","description", "user", "post"]
+        extra_kwargs = {
+            "uuid": {"read_only": True}
+        }
+
+class CommentImportSerializer(serializers.ModelSerializer):
+     class Meta:
+        model = Comment
+        fields = [
+            "uuid",
+            "description"
+        ]
+        read_only_fields = ["uuid"] 

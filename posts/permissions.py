@@ -1,8 +1,7 @@
 from rest_framework import permissions
 from rest_framework.views import Request, View
 from .models import Post
-from groups.models import Group
-from user.models import User
+
 
 
 class AbleToPost(permissions.BasePermission):

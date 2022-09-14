@@ -5,14 +5,14 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Answer
-from .permissions import AbleToAnswer, IsOwner
+from .permissions import AbleToAnswer, IsOwnerOrAdmin
 from .serializers import AnswerCreateSerializer, AnswerSerializer
 from .utils.mixins import SerializerByMethodMixin
 
 
 class AnswerView(SerializerByMethodMixin, generics.ListCreateAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated,AbleToAnswer]
 
     queryset = Answer.objects.all()
     serializer_map = {
@@ -30,7 +30,7 @@ class AnswerView(SerializerByMethodMixin, generics.ListCreateAPIView):
 
 class AnswerDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated,IsOwnerOrAdmin]
 
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer

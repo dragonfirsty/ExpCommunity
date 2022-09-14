@@ -5,7 +5,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Comment
-from .permissions import CommentPermissions
+from .permissions import AbleToComment,IsOwnerOrAdmin
 from .serializers import CommentCreateSerializer, CommentSerializer
 from .utils.mixins import SerializerByMethodMixin
 
@@ -13,7 +13,7 @@ from .utils.mixins import SerializerByMethodMixin
 class CommentView(SerializerByMethodMixin, ListCreateAPIView):
 
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated,AbleToComment]
     lookup_field = "post_id"
     queryset = Comment.objects.all()
     serializer_map = {
@@ -29,5 +29,7 @@ class CommentView(SerializerByMethodMixin, ListCreateAPIView):
 
 
 class CommentDetailView(RetrieveUpdateDestroyAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated,IsOwnerOrAdmin]
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer

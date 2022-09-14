@@ -2,11 +2,11 @@ from rest_framework import serializers
 from .models import Answer
 
 from user.serializers import UserSerializer
-from comments.serializers import CommentSerializer
+from comments.serializers import CommentImportSerializer
 
 class AnswerSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    comment = CommentSerializer(read_only=True)
+    comment = CommentImportSerializer(read_only=True)
     class Meta:
         model = Answer
         fields = "__all__"
@@ -19,8 +19,12 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 class AnswerCreateSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    comment = CommentSerializer(read_only=True)
+    comment = CommentImportSerializer(read_only=True) 
 
     class Meta:
         model = Answer
-        fields = ["description", "user", "comment"]
+        fields = ["uuid","description", "user", "comment"]
+        extra_kwargs = {
+            "uuid": {"read_only": True}
+        }
+        

@@ -13,3 +13,13 @@ class PostSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ["uuid", "user", "group"]
 
+class PostImportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = [
+            "uuid",
+            "description",
+            "media"
+        ]
+        read_only_fields = ["uuid"]        
+
